@@ -1,0 +1,195 @@
+html,body{
+  padding: 0;
+  margin:0;
+  font-family: Tahoma, sans-serif;
+  background: linear-gradient(to bottom, var(--main-color),var(--secondary-color));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+:root{
+  --main-color:rgb(40,34,92);
+  --secondary-color:rgb(40, 50, 92);
+  --white:rgb(255,255,255);
+  --opposite:rgb(222, 49, 99);
+  --other:rgb(202, 29, 79);
+  --you:rgb(242, 69, 119);
+}
+.title{
+  color:var(--white);
+  font-size: 6vh;
+}
+.buttons>li{
+  margin-top: 2%;
+}
+.info{
+  list-style: none;
+}
+.info>li>h2{
+  color: white;
+}
+.loading{
+  position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background:rgb(50,50,50);
+    display: flex;
+    justify-content: center;
+
+}
+.invis{
+  display: none;
+}
+.error{
+  transition: 0.5s;
+  color:rgba(255,0,0,0)
+}
+.visible{
+  transition: 0.5s;
+  color:rgba(255,0,0,1)
+}
+.loading>img{
+  text-align: center;
+  width:10em;
+  height:10em;
+  animation: rotation 2s infinite linear;
+  align-self: center;
+  position: fixed;
+}
+.loading>button{
+  margin-top: 90vh;
+}
+.buttons{
+  padding: 0;
+  margin: 0;
+  margin-top:5%;
+}
+.UIlabel{
+  color:var(--white);
+  font-size: 3vh;
+}
+.home{
+  display: block;
+  width:10%!important;
+  float:left;
+  margin-left: 5%;
+}
+.skip{
+  display: block;
+  width:10%!important;
+  float:right;
+  margin-right: 5%;
+}
+.you{
+  background-color:var(--you);
+}
+.other{
+  background-color:var(--other);
+}
+.UIinput{
+  font-size: 3vh;
+  text-align: center;
+  color:var(--white);
+  background-color: rgba(222, 49, 99,0.2);
+  width:20%;
+  height:30px;
+  border-radius: 5px;
+  border: 2px solid var(--white);
+}
+.UIinput:focus{
+  outline: none;
+}
+.chatBox{
+  overflow: auto;
+  color:var(--white);
+  background-color: var(--opposite);
+  border-color: var(--white);
+  width:60%;
+  height:500px;
+  border-radius: 5px;
+  border: 2px solid var(--white);
+}
+.actions{
+  margin-top: 1.5%;
+}
+
+.message{
+  display: flex;
+  width:100%;
+  flex-wrap: wrap;
+}
+.send{
+  margin-top: 2.5%;
+  display: flex;
+  width:100%;
+  justify-content: center;
+}
+.server{
+  width:100%;
+}
+.sendButton{
+  margin-left: 10px;
+  height: 40px;
+  width:40px;
+  margin-top: -.25%;
+}
+.name{
+  font-size: 2vh;
+  margin-left: 5%;
+  max-width:50%;
+  width:auto;
+}
+.content{
+  margin-top: -.5%;
+  float:left;
+  font-weight: lighter;
+  margin-left: 5%;
+  font-size: 2vh;
+  width:100%;
+  text-align: left;
+}
+.textBox{
+  width:50%!important;
+}
+.date{
+  font-weight: lighter;
+  margin-left: 5%;
+  font-size: 2vh;
+  width:auto;
+  max-width: 30%;
+}
+.chats{
+  padding:0;
+  margin:0;
+  list-style: none;
+}
+.UIbutton{
+  text-align: center;
+  color:var(--white);
+  background-color: var(--opposite);
+  width:20%;
+  height:50px;
+  border-radius: 5px;
+  border: 2px solid var(--white);
+  font-size: 3vh;
+  font-weight: lighter;
+  transition: 0.2s;
+}
+.UIbutton:Hover{
+  color:var(--opposite);
+  background-color: var(--white);
+  border-color: var(--opposite);
+  width:21%;
+  transition: 0.2s;
+}
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
