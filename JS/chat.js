@@ -2,7 +2,7 @@ const url = "https://ccapi.onrender.com"
 const urlParams = new URLSearchParams(window.location.search);
 
 let inQueue = false;
-let page = "chat.html"
+let page = "chat"
 
 let message = document.querySelector(".message").cloneNode(true)
 let server = document.querySelector(".server").cloneNode(true)
