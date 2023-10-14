@@ -7,7 +7,7 @@ let cancel = document.querySelector('.cancel')
 let error = document.querySelector('.error')
 let loading = cancel.parentElement
 
-let page = "chat"
+let page = "chat.html"
 let inQueue = false;
 
 localStorage.loaded = false;
