@@ -35,7 +35,7 @@ if (localStorage.room & localStorage.room != ""){
 if (localStorage.userid != "" && localStorage.userid){
   fetch(url+'/clearQueue',{method:"POST",body: JSON.stringify({'id':localStorage.userid})});
 }else{
-  localStorage.userid = "asdasdasd"
+  localStorage.userid = makeid(5)
 }
 
 randomNames = ["Smiling joker","Dancing dad","Father less","Black balloon","Green giraffe","Drunk driver"]
@@ -57,6 +57,18 @@ setInterval(()=>{
     localStorage.username = user.value
   }
 },10)
+
+function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
 
 async function queue(){
   const response = await fetch(url+'/queue',{method:"POST",body: JSON.stringify({'name':localStorage.username,'userid':localStorage.userid})});
