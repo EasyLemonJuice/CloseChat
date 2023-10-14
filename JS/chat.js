@@ -138,6 +138,7 @@ skip.addEventListener('click',()=>{
   loading.classList.remove('invis')
   queue()
   setInterval(()=>{
+    localStorage.loaded = false;
     update()
   },500)
 })
