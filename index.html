@@ -1,0 +1,26 @@
+<!doctype HTML>
+<html>
+  <head>
+    <title>Close Chat</title>
+    <link href = "CSS/styles.css" rel = "stylesheet"></link>
+    <link rel="icon" type="image/x-icon" href="Images/logo.ico">
+  </head>
+  <body>
+    <div class = "loading invis">
+      <img src = "Images/load.png"></img>
+      <button class = "cancel UIbutton">Cancel</button>
+    </div>
+    <center>
+      <h1 class = "title">Close Chat</h1>
+      <ul class = "buttons">
+        <li><button id = "chat" class = "UIbutton">Chat</button></li>
+        <li><button onclick = "window.location.href='info.html'" class = "UIbutton">Info</button></li>
+        <li><label class = "UIlabel">Name:</label><br><br><input maxlength="20" id = "name" class = "UIinput"></input></li>
+        <br><br><br><br><br><br>
+        <li><h1 class = "error"></h1></li>
+      </ul>
+    </center>
+
+  </body>
+  <script src = "JS/handler.js"></script>
+</html>
