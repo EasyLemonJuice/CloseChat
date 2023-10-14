@@ -3,6 +3,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
 let inQueue = false;
 let page = "chat"
+let disconnected = false;
 
 let message = document.querySelector(".message").cloneNode(true)
 let server = document.querySelector(".server").cloneNode(true)
@@ -130,6 +131,7 @@ textBox.addEventListener('keydown', (event) => {
 });
 
 skip.addEventListener('click',()=>{
+  disconnected = true;
   localStorage.loaded = false;
   inQueue = true;
   exitRoom()
@@ -155,8 +157,11 @@ async function loadRoom(code){
         let date = convertTime(new Date())
         fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"server",'name':yourName+" joined the room",'date':date})})
       }
-      localStorage.loaded = true;
-      roomFound = true;
+      if (!disconnected){
+        localStorage.loaded = true;
+        roomFound = true;
+      }
+      
     }
   })
   if (!roomFound && !inQueue){
