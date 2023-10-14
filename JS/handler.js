@@ -39,7 +39,7 @@ if (localStorage.userid != "" && localStorage.userid){
 }
 
 randomNames = ["Smiling joker","Dancing dad","Father less","Black balloon","Green giraffe","Drunk driver"]
-if (localStorage.username != ""){
+if (localStorage.username != "" && localStorage.username){
   user.value = localStorage.username;
 }else{
   const nameChosen = randomNames[Math.floor(Math.random() * randomNames.length)];
