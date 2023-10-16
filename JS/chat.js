@@ -2,17 +2,30 @@ const url = "https://ccapi.onrender.com"
 const urlParams = new URLSearchParams(window.location.search);
 
 let inQueue = false;
-let page = "chat"
-let disconnected = false;
+let page = "chat.html"
 
 let message = document.querySelector(".message").cloneNode(true)
+let image = document.querySelector(".image").cloneNode(true)
 let server = document.querySelector(".server").cloneNode(true)
+
+let cam = document.querySelector(".imageCam")
+let stop = document.querySelector(".stop")
+let send = document.querySelector(".send")
+
+let fileUpload = document.querySelector(".fileInput")
 
 let yourName = localStorage.username
 let roomCode = urlParams.get("id")
 
+
 document.querySelector(".message").remove()
+document.querySelector(".image").remove()
 document.querySelector(".server").remove()
+
+const webcamElement = document.getElementById('webcam');
+const canvasElement = document.getElementById('canvas');
+const snapSoundElement = document.getElementById('snapSound');
+const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
 
 let lastMax = 0
 
@@ -37,16 +50,37 @@ async function loadRoom(code){
   })
 }
 
+async function loadImage(code,image){
+  const response = await fetch(url+'/getImage',{method:"POST",body: JSON.stringify({'id':code})});
+  image.src = await response.json();
+}
+
 function convertTime(date){
   let year = date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
   let hours = date.getHours();
   let minutes = date.getMinutes();
   let ampm = hours >= 12 ? 'pm' : 'am';
   hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours ? hours : 12;
   minutes = minutes < 10 ? '0'+minutes : minutes;
   let strTime = year + " at "+ hours + ':' + minutes + ' ' + ampm;
   return strTime;
+}
+
+function camera(on){
+  if (on){
+    cam.classList.remove("invis")
+    webcam.start()
+       .then(result =>{
+          console.log("webcam started");
+       })
+       .catch(err => {
+           console.log(err);
+       });
+  }else{
+    webcam.stop()
+    cam.classList.add("invis")
+  }
 }
 
 function exitRoom(){
@@ -67,7 +101,7 @@ function sendMessage(){
   setTimeout(function(){
     loadRoom(roomCode)
   },10)
-  
+
 }
 
 function load(msgs){
@@ -92,8 +126,22 @@ function load(msgs){
         }else{
           node.classList.add("other")
         }
-      }else if (obj.type = "server"){
+      }else if (obj.type == "server"){
         node = server.cloneNode(true);
+      }else if (obj.type == "image"){
+        node = image.cloneNode(true);
+        obj.content.forEach((string)=>{
+          let contentNode = node.querySelector(".content").cloneNode(true);
+          contentNode.classList.remove("invis")
+          let id = parseInt(string.substring(35))
+          loadImage(id,contentNode)
+          node.append(contentNode);
+        })
+        if (obj.name == yourName){
+          node.classList.add("you")
+        }else{
+          node.classList.add("other")
+        }
       }
       node.querySelector(".name").textContent = obj.name;
       node.querySelector(".date").textContent = obj.date;
@@ -131,14 +179,12 @@ textBox.addEventListener('keydown', (event) => {
 });
 
 skip.addEventListener('click',()=>{
-  disconnected = true;
   localStorage.loaded = false;
   inQueue = true;
   exitRoom()
   loading.classList.remove('invis')
   queue()
   setInterval(()=>{
-    localStorage.loaded = false;
     update()
   },500)
 })
@@ -158,11 +204,8 @@ async function loadRoom(code){
         let date = convertTime(new Date())
         fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"server",'name':yourName+" joined the room",'date':date})})
       }
-      if (!disconnected){
-        localStorage.loaded = true;
-        roomFound = true;
-      }
-      
+      localStorage.loaded = true;
+      roomFound = true;
     }
   })
   if (!roomFound && !inQueue){
@@ -178,7 +221,20 @@ async function loadRoom(code){
 async function queue(){
   const response = await fetch(url+'/queue',{method:"POST",body: JSON.stringify({'name':localStorage.username,'userid':localStorage.userid})});
 }
-
+document.querySelector(".fileButton").addEventListener('click',()=>{
+  fileUpload.click()
+})
+document.querySelector(".cameraButton").addEventListener('click',()=>{
+  camera(true)
+})
+stop.addEventListener('click',()=>{
+  camera(false)
+})
+send.addEventListener('click',()=>{
+  let date = convertTime(new Date())
+  fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"image",'name':yourName,'date':date,'content':webcam.snap()})})
+  camera(false)
+})
 async function update(){
   const response = await fetch(url+'/updateQueue',{method:"POST",body: JSON.stringify({'ignore':'', 'name':localStorage.username,'id':localStorage.userid})});
   var data = await response.json();
@@ -188,7 +244,21 @@ async function update(){
     window.location.href = page+"?id="+data['code']
   }
 }
+fileUpload.onchange = function () {
+  let file = fileUpload.files[0],
+    reader = new FileReader();
 
+  reader.onloadend = function () {
+    let b64 = reader.result;
+    if (b64 && roomCode){
+      fileUpload.value = ""
+      let date = convertTime(new Date())
+      fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"image",'name':yourName,'date':date,'content':b64})})
+    }
+  };
+
+  reader.readAsDataURL(file);
+};
 setInterval(()=>{
   try {
     loadRoom(roomCode)
