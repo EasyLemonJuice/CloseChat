@@ -1,6 +1,7 @@
 <!doctype HTML>
 <html>
   <head>
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
     <title>Chat room</title>
     <link href = "CSS/styles.css" rel = "stylesheet"></link>
     <link rel="icon" type="image/x-icon" href="Images/logo.ico">
@@ -20,13 +21,24 @@
             <h1 class = "date"></h1>
             <h1 class = "content"></h1>
           </li>
+          <li class = "image">
+            <h1 class = "name"></h1>
+            <h1 class = "date imageDate"></h1>
+            <div class = "break"></div>
+            <img src = "" alt = "" class = "content imageContent invis"></img><br>
+          </li>
           <li class = "server">
             <h1 class = "name"></h1>
             <h1 class = "date"></h1>
           </li>
         <ul>
       </div>
-      <div class = "send">
+      <div class = "sendFrame">
+        <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+             <input class = "fileInput" type="file" accept="image/*" />
+        </span>
+        <img class = "fileButton" src = "Images/gallery.png"></img>
+        <img class = "cameraButton" src = "Images/camera.png"></img>
         <input maxlength="150" class = "UIinput textBox"></input>
         <img onClick = "sendMessage()" class = "sendButton" src = "Images/send_arrow.png"></img>
       </div>
@@ -34,6 +46,14 @@
         <button class = "UIbutton home">Home</button>
         <button class = "UIbutton skip">Skip</button>
       <div>
+    </center>
+    <center class = "imageCam invis">
+      <button class = "UIbutton send">Snap and Send</button><br>
+      <button class = "UIbutton stop">Cancel</button><br>
+      <video id="webcam" autoplay playsinline width="640" height="480"></video>
+      <canvas style = "display:none; width:10px; height:10px;" id="canvas" class="d-none"></canvas>
+      <audio id="snapSound" src="audio/snap.wav" preload = "auto"></audio>
+
     </center>
   </body>
   <script src = "JS/chat.js"></script>
