@@ -5,9 +5,12 @@ let chat = document.getElementById('chat')
 let user = document.getElementById('name')
 let cancel = document.querySelector('.cancel')
 let error = document.querySelector('.error')
+let online = document.querySelector('#online')
+let queueing = document.querySelector('#queueing')
 let loading = cancel.parentElement
 
-let page = "chat"
+
+let page = "chat.html"
 let inQueue = false;
 
 localStorage.loaded = false;
@@ -35,11 +38,11 @@ if (localStorage.room & localStorage.room != ""){
 if (localStorage.userid != "" && localStorage.userid){
   fetch(url+'/clearQueue',{method:"POST",body: JSON.stringify({'id':localStorage.userid})});
 }else{
-  localStorage.userid = makeid(5)
+  localStorage.userid = "asdasdasd"
 }
 
 randomNames = ["Smiling joker","Dancing dad","Father less","Black balloon","Green giraffe","Drunk driver"]
-if (localStorage.username != "" && localStorage.username){
+if (localStorage.username != ""){
   user.value = localStorage.username;
 }else{
   const nameChosen = randomNames[Math.floor(Math.random() * randomNames.length)];
@@ -58,18 +61,6 @@ setInterval(()=>{
   }
 },10)
 
-function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-}
-
 async function queue(){
   const response = await fetch(url+'/queue',{method:"POST",body: JSON.stringify({'name':localStorage.username,'userid':localStorage.userid})});
 }
@@ -80,6 +71,11 @@ function exitRoom(){
   }
 }
 
+async function getData(form){
+  const response = await fetch(url+form);
+  return await response.json();
+}
+
 async function update(){
   const response = await fetch(url+'/updateQueue',{method:"POST",body: JSON.stringify({'ignore':'', 'name':localStorage.username,'id':localStorage.userid})});
   var data = await response.json();
@@ -88,6 +84,22 @@ async function update(){
     window.location.href = page+"?id="+data['code']
   }
 }
+
+function setData(){
+  getData("/rooms").then((rooms)=>{
+    console.log(rooms)
+    online.textContent = "Rooms: "+rooms.length
+  })
+  getData("/getQueue").then((queue)=>{
+    console.log(queue)
+    queueing.textContent = "Queueing: "+queue.length
+  })
+}
+setData()
+setInterval(()=>{
+  setData()
+
+},1500)
 
 exitRoom()
 cancel.addEventListener("click",()=>{
