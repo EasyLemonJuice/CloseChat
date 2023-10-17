@@ -1,0 +1,34 @@
+<!doctype HTML>
+<html>
+  <head>
+    <title>Close Chat</title>
+    <link href = "CSS/styles.css" rel = "stylesheet"></link>
+    <link rel="icon" type="image/x-icon" href="Images/logo.ico">
+
+  </head>
+  <body>
+    <div class = "loading invis">
+      <img src = "Images/load.png"></img>
+      <button class = "cancel UIbutton">Cancel</button>
+    </div>
+    <center>
+      <h1 class = "title">Groups</h1>
+
+      <ul class = "buttons">
+        <li><div class = "myRooms"><button id = "asd" class = "UIbutton roomButton">Room_name</button></div></li>
+
+        <li><label class = "UIlabel">Group id:</label><br><br><input maxlength="20" id = "name" class = "joinval UIinput"></input></li>
+        <li><button class = "UIbutton join">Join</button></li>
+        <br>
+        <li><label class = "UIlabel">Group Name:</label><br><br><input maxlength="20" id = "name" class = "createval UIinput"></input></li>
+        <li><button class = "UIbutton create">Create</button></li>
+        <br>
+        <li><button onclick = "window.location.href = 'index.html'" class = "UIbutton">Home</button></li>
+        <br><br><br><br>
+        <li><h1 class = "error"></h1></li>
+      </ul>
+    </center>
+
+  </body>
+  <script src = "JS/groups.js"></script>
+</html>
