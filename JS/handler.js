@@ -5,7 +5,6 @@ let chat = document.getElementById('chat')
 let user = document.getElementById('name')
 let cancel = document.querySelector('.cancel')
 let error = document.querySelector('.error')
-let online = document.querySelector('#online')
 let queueing = document.querySelector('#queueing')
 let loading = cancel.parentElement
 
@@ -86,19 +85,13 @@ async function update(){
 }
 
 function setData(){
-  getData("/rooms").then((rooms)=>{
-    console.log(rooms)
-    online.textContent = "Rooms: "+rooms.length
-  })
   getData("/getQueue").then((queue)=>{
-    console.log(queue)
     queueing.textContent = "Queueing: "+queue.length
   })
 }
 setData()
 setInterval(()=>{
   setData()
-
 },1500)
 
 exitRoom()
