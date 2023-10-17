@@ -16,7 +16,10 @@ let fileUpload = document.querySelector(".fileInput")
 
 let yourName = localStorage.username
 let roomCode = urlParams.get("id")
-
+let roomName = urlParams.get("name")
+if (roomName && roomName != ""){
+  document.querySelector('.title').textContent = roomName
+}
 
 document.querySelector(".message").remove()
 document.querySelector(".image").remove()
@@ -95,7 +98,7 @@ function sendMessage(){
   let text = textBox.value;
   if (text.length > 0){
     let date = convertTime(new Date())
-    fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"message",'name':yourName,'date':date,'content':text})})
+    fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"message",'name':yourName,'date':date,'content':text,'userid':localStorage.userid})})
   }
   textBox.value = "";
   setTimeout(function(){
@@ -202,7 +205,7 @@ async function loadRoom(code){
       load(room["messages"])
       if (localStorage.loaded == 'false'){
         let date = convertTime(new Date())
-        fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"server",'name':yourName+" joined the room",'date':date})})
+        fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"server",'name':yourName+" joined the room",'date':date,'userid':'serverMessage'})})
       }
       localStorage.loaded = true;
       roomFound = true;
@@ -232,7 +235,7 @@ stop.addEventListener('click',()=>{
 })
 send.addEventListener('click',()=>{
   let date = convertTime(new Date())
-  fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"image",'name':yourName,'date':date,'content':webcam.snap()})})
+  fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"image",'name':yourName,'date':date,'content':webcam.snap(),'userid':localStorage.userid})})
   camera(false)
 })
 async function update(){
@@ -253,7 +256,7 @@ fileUpload.onchange = function () {
     if (b64 && roomCode){
       fileUpload.value = ""
       let date = convertTime(new Date())
-      fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"image",'name':yourName,'date':date,'content':b64})})
+      fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"image",'name':yourName,'date':date,'content':b64,'userid':localStorage.userid})})
     }
   };
 
