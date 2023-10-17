@@ -164,6 +164,19 @@ html,body{
 .server{
   width:100%;
 }
+.roomButton{
+  width:auto!important;
+}
+.myRooms{
+  width:50%;
+  display: flex;
+  flex-direction:row;
+  overflow:auto;
+  padding: 2px;
+  border: 2px solid white;
+  align-items: center;
+  min-height:50px;
+}
 h2{
   color:var(--white)
 }
