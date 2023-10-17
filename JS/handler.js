@@ -16,12 +16,14 @@ localStorage.loaded = false;
 
 let errorCode = localStorage.errorCode
 if (errorCode == "1"){
+  localStorage.room = ""
   error.textContent = "Other player disconnected"
   error.classList.add("visible")
   setTimeout(function(){
     error.classList.remove("visible")
   },2000)
 }else if (errorCode == "2"){
+  localStorage.room = ""
   error.textContent = "Room not found"
   error.classList.add("visible")
   setTimeout(function(){
