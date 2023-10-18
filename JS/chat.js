@@ -195,8 +195,8 @@ home.addEventListener('click',()=>{
 async function loadRoom(code){
   const response = await fetch(url+'/getRoom',{method:"POST",body: JSON.stringify({'id':code})});
   var room = await response.json();
-  console.log(room)
-  if (!room | room.length == 0){
+  
+  if (room == {}){
     if (!inQueue){
       if (localStorage.loaded == 'true'){
         localStorage.errorCode = "1"
