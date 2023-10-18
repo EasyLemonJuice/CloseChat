@@ -44,13 +44,9 @@ let loading = cancel.parentElement
 let chatId = "hasd123"
 
 async function loadRoom(code){
-  const response = await fetch(url+'/rooms');
+  const response = await fetch(url+'/getRoom',{method:"POST",body: JSON.stringify({'id':code})});
   var data = await response.json();
-  data.forEach((room)=>{
-    if (room["id"]==code){
-      load(room["messages"])
-    }
-  })
+  load(data)
 }
 
 async function loadImage(code,image){
