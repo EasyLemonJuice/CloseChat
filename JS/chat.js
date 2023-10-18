@@ -196,7 +196,7 @@ async function loadRoom(code){
   const response = await fetch(url+'/getRoom',{method:"POST",body: JSON.stringify({'id':code})});
   var room = await response.json();
   
-  if (room == {}){
+  if (!room['messages']){
     if (!inQueue){
       if (localStorage.loaded == 'true'){
         localStorage.errorCode = "1"
