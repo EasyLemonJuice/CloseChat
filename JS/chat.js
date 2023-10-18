@@ -193,28 +193,25 @@ home.addEventListener('click',()=>{
 })
 
 async function loadRoom(code){
-  const response = await fetch(url+'/rooms');
-  var data = await response.json();
-  let roomFound = false;
-  data.forEach((room)=>{
-    if (room["id"]==code){
-      load(room["messages"])
-      if (localStorage.loaded == 'false'){
-        let date = convertTime(new Date())
-        fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"server",'name':yourName+" joined the room",'date':date,'userid':'serverMessage'})})
+  const response = await fetch(url+'/getRoom',{method:"POST",body: JSON.stringify({'id':code})});
+  var room = await response.json();
+  if (!room || room == {}){
+    if (!inQueue){
+      if (localStorage.loaded == 'true'){
+        localStorage.errorCode = "1"
+      }else {
+        localStorage.errorCode = "2"
       }
-      localStorage.loaded = true;
-      roomFound = true;
-    }
-  })
-  if (!roomFound && !inQueue){
-    if (localStorage.loaded == 'true'){
-      localStorage.errorCode = "1"
-    }else {
-      localStorage.errorCode = "2"
     }
     window.location.href = "index.html"
   }
+  }
+  load(room["messages"])
+  if (localStorage.loaded == 'false'){
+    let date = convertTime(new Date())
+    fetch(url+'/message',{method:"POST",body: JSON.stringify({'id':roomCode, 'type':"server",'name':yourName+" joined the room",'date':date,'userid':'serverMessage'})})
+  }
+  localStorage.loaded = true;
 }
 
 async function queue(){
