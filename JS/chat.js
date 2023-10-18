@@ -195,7 +195,7 @@ home.addEventListener('click',()=>{
 async function loadRoom(code){
   const response = await fetch(url+'/getRoom',{method:"POST",body: JSON.stringify({'id':code})});
   var room = await response.json();
-  if (!room || room == {}){
+  if (!room || room.length == 0){
     if (!inQueue){
       if (localStorage.loaded == 'true'){
         localStorage.errorCode = "1"
@@ -204,7 +204,7 @@ async function loadRoom(code){
       }
     }
     window.location.href = "index.html"
-  }
+    return
   }
   load(room["messages"])
   if (localStorage.loaded == 'false'){
